@@ -97,7 +97,6 @@ h2 {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efek glow saat input aktif */
 .form-group input[type="text"]:focus {
     outline: none;
     border-color: #4a90e2;
