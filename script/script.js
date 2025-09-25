@@ -1,138 +1,133 @@
 // DOM MANIPULATION & EVENT HANDLING - DARK MODE TOGGLE
+// file ini untuk mengatur ganti tema gelap/terang di website
 
-// 1. DOM ELEMENT SELECTION (DOM Manipulation)
-const themeToggleBtn = document.getElementById('themeToggle');
-const themeIcon = document.querySelector('.theme-icon');
-const themeText = document.querySelector('.theme-text');
-const headerTitle = document.getElementById('headerTitle');
-const modeStatus = document.getElementById('modeStatus');
-const body = document.body;
+// 1. DOM ELEMENT SELECTION (cari elemen HTML yang mau dipakai)
+const themeToggleBtn = document.getElementById('themeToggle'); // cari tombol toggle tema
+const themeIcon = document.querySelector('.theme-icon'); // cari ikon di dalam tombol
+const themeText = document.querySelector('.theme-text'); // cari teks di dalam tombol
+const headerTitle = document.getElementById('headerTitle'); // cari judul header
+const modeStatus = document.getElementById('modeStatus'); // cari status mode di footer
+const body = document.body; // ambil elemen body (seluruh halaman)
 
-// 2. VARIABEL STATE
-let isDarkMode = false;
+// 2. VARIABEL STATE (menyimpan kondisi saat ini)
+let isDarkMode = false; // variabel untuk ingat apakah lagi mode gelap atau terang
 
-// 3. EVENT HANDLING - Button Click Event
-themeToggleBtn.addEventListener('click', function() {
-    console.log('Theme toggle button clicked!'); // Debug log
+// 3. EVENT HANDLING - menangani klik tombol toggle
+themeToggleBtn.addEventListener('click', function() { // addEventListener = kasih tahu browser kalau tombol diklik jalankan function ini
+    console.log('Theme toggle button clicked!'); // catat ke console untuk debug
     
-    // Toggle state
-    isDarkMode = !isDarkMode;
+    // toggle state (balik kondisi: kalau true jadi false, kalau false jadi true)
+    isDarkMode = !isDarkMode; // tanda ! artinya kebalikan
     
-    // DOM MANIPULATION - Apply theme changes
-    toggleDarkMode();
+    // panggil function-function untuk update tampilan
+    toggleDarkMode(); // ganti class CSS
+    updateToggleButton(); // update tampilan tombol
+    updateModeStatus(); // update status di footer
+    addClickAnimation(); // kasih efek animasi
     
-    // DOM MANIPULATION - Update button appearance
-    updateToggleButton();
-    
-    // DOM MANIPULATION - Update status text
-    updateModeStatus();
-    
-    // DOM MANIPULATION - Add click animation
-    addClickAnimation();
-    
-    // Local Storage - Save user preference
-    localStorage.setItem('darkModeEnabled', isDarkMode);
+    // simpan pilihan user ke local storage browser
+    localStorage.setItem('darkModeEnabled', isDarkMode); // localStorage = penyimpanan di browser
 });
 
-// 4. DOM MANIPULATION FUNCTIONS
+// 4. FUNCTION-FUNCTION UNTUK MANIPULASI DOM
 
+// function untuk ganti tema (tambah/hapus class CSS)
 function toggleDarkMode() {
-    if (isDarkMode) {
-        // DOM Manipulation: Add dark theme class
-        body.classList.add('dark-theme');
-        console.log('Dark mode activated');
-    } else {
-        // DOM Manipulation: Remove dark theme class
-        body.classList.remove('dark-theme');
-        console.log('Light mode activated');
+    if (isDarkMode) { // kalau mode gelap aktif
+        body.classList.add('dark-theme'); // tambah class "dark-theme" ke body
+        console.log('Dark mode activated'); // catat ke console
+    } else { // kalau mode terang aktif
+        body.classList.remove('dark-theme'); // hapus class "dark-theme" dari body
+        console.log('Light mode activated'); // catat ke console
     }
 }
 
+// function untuk update tampilan tombol toggle
 function updateToggleButton() {
-    if (isDarkMode) {
-        // DOM Manipulation: Change button content for dark mode
-        themeIcon.innerHTML = '<i class="fas fa-sun"></i>';
-        themeText.textContent = 'Light Mode';
-        themeToggleBtn.style.backgroundColor = '#ffd700';
-        themeToggleBtn.style.color = '#333';
-    } else {
-        // DOM Manipulation: Change button content for light mode
-        themeIcon.innerHTML = '<i class="fas fa-moon"></i>';
-        themeText.textContent = 'Dark Mode';
-        themeToggleBtn.style.backgroundColor = '#333745';
-        themeToggleBtn.style.color = 'white';
+    if (isDarkMode) { // kalau mode gelap
+        themeIcon.innerHTML = '<i class="fas fa-sun"></i>'; // ganti ikon jadi matahari
+        themeText.textContent = 'Light Mode'; // ganti teks jadi "Light Mode"
+        themeToggleBtn.style.backgroundColor = '#ffd700'; // warna latar kuning
+        themeToggleBtn.style.color = '#333'; // warna teks gelap
+    } else { // kalau mode terang
+        themeIcon.innerHTML = '<i class="fas fa-moon"></i>'; // ganti ikon jadi bulan
+        themeText.textContent = 'Dark Mode'; // ganti teks jadi "Dark Mode"
+        themeToggleBtn.style.backgroundColor = '#333745'; // warna latar gelap
+        themeToggleBtn.style.color = 'white'; // warna teks putih
     }
 }
 
+// function untuk update status mode di footer
 function updateModeStatus() {
-    // DOM Manipulation: Update status text
-    const currentMode = isDarkMode ? 'Dark Mode' : 'Light Mode';
-    modeStatus.textContent = `Mode Saat Ini: ${currentMode}`;
+    // tentukan teks status berdasarkan mode saat ini
+    const currentMode = isDarkMode ? 'Dark Mode' : 'Light Mode'; // ternary operator (if singkat)
+    modeStatus.textContent = `Mode Saat Ini: ${currentMode}`; // template literal dengan ${}
     
-    // DOM Manipulation: Change status color
-    modeStatus.style.color = isDarkMode ? '#ffd700' : '#4a90e2';
+    // ganti warna status sesuai tema
+    modeStatus.style.color = isDarkMode ? '#ffd700' : '#4a90e2'; // kuning kalau gelap, biru kalau terang
 }
 
+// function untuk kasih efek animasi saat tombol diklik
 function addClickAnimation() {
-    // DOM Manipulation: Add temporary animation class
-    themeToggleBtn.classList.add('clicked');
+    themeToggleBtn.classList.add('clicked'); // tambah class "clicked" untuk animasi CSS
     
-    // DOM Manipulation: Remove animation class after delay
-    setTimeout(() => {
+    // hapus class "clicked" setelah 200ms (0.2 detik)
+    setTimeout(() => { // setTimeout = jalankan setelah waktu tertentu
         themeToggleBtn.classList.remove('clicked');
-    }, 200);
+    }, 200); // 200 milliseconds
 }
 
-// 5. EVENT HANDLING - Page Load Event
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded, initializing theme...');
+// 5. EVENT HANDLING - saat halaman selesai dimuat
+document.addEventListener('DOMContentLoaded', function() { // DOMContentLoaded = event saat HTML sudah siap
+    console.log('Page loaded, initializing theme...'); // catat bahwa halaman sudah load
     
-    // DOM Manipulation: Load saved theme from localStorage
-    const savedTheme = localStorage.getItem('darkModeEnabled');
-    if (savedTheme === 'true') {
-        isDarkMode = true;
-        toggleDarkMode();
-        updateToggleButton();
-        updateModeStatus();
+    // ambil pilihan tema yang tersimpan di browser
+    const savedTheme = localStorage.getItem('darkModeEnabled'); // ambil dari local storage
+    if (savedTheme === 'true') { // kalau ada dan nilainya 'true' (string)
+        isDarkMode = true; // set variabel jadi true
+        toggleDarkMode(); // aktifkan dark mode
+        updateToggleButton(); // update tampilan tombol
+        updateModeStatus(); // update status
     }
     
-    // DOM Manipulation: Add initial animation
-    themeToggleBtn.style.opacity = '0';
-    themeToggleBtn.style.transform = 'translateY(-20px)';
+    // kasih animasi muncul untuk tombol toggle
+    themeToggleBtn.style.opacity = '0'; // mulai dari transparan
+    themeToggleBtn.style.transform = 'translateY(-20px)'; // mulai dari atas 20px
     
+    // setelah 500ms, animasikan masuk
     setTimeout(() => {
-        themeToggleBtn.style.transition = 'all 0.3s ease';
-        themeToggleBtn.style.opacity = '1';
-        themeToggleBtn.style.transform = 'translateY(0)';
-    }, 500);
+        themeToggleBtn.style.transition = 'all 0.3s ease'; // kasih transisi halus
+        themeToggleBtn.style.opacity = '1'; // jadi terlihat
+        themeToggleBtn.style.transform = 'translateY(0)'; // pindah ke posisi normal
+    }, 500); // tunggu 0.5 detik
 });
 
-// 6. EVENT HANDLING - Keyboard Shortcut (Bonus)
-document.addEventListener('keydown', function(event) {
-    // Ctrl + D untuk toggle dark mode
-    if (event.ctrlKey && event.key === 'd') {
-        event.preventDefault(); // Mencegah default browser action
-        console.log('Keyboard shortcut activated!');
+// 6. EVENT HANDLING - shortcut keyboard (fitur bonus)
+document.addEventListener('keydown', function(event) { // keydown = event saat tombol keyboard ditekan
+    // cek apakah user tekan Ctrl + D
+    if (event.ctrlKey && event.key === 'd') { // ctrlKey = apakah Ctrl ditekan, key = tombol apa
+        event.preventDefault(); // cegah aksi default browser (bookmark di Chrome)
+        console.log('Keyboard shortcut activated!'); // catat ke console
         
-        // DOM Manipulation: Trigger click programmatically
-        themeToggleBtn.click();
+        // simulasi klik tombol toggle
+        themeToggleBtn.click(); // panggil event click secara programmatic
     }
 });
 
-// 7. EVENT HANDLING - Double Click (Bonus feature)
-themeToggleBtn.addEventListener('dblclick', function() {
-    // DOM Manipulation: Create notification
+// 7. EVENT HANDLING - double click (fitur bonus)
+themeToggleBtn.addEventListener('dblclick', function() { // dblclick = double click/klik dua kali
+    // tampilkan notifikasi khusus untuk double click
     showNotification('Double click detected! Theme toggled twice!');
 });
 
-// 8. DOM MANIPULATION - Create and show notification
+// 8. FUNCTION UNTUK BIKIN DAN TAMPILKAN NOTIFIKASI POP-UP
 function showNotification(message) {
-    // DOM Manipulation: Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
+    // buat elemen div baru untuk notifikasi
+    const notification = document.createElement('div'); // createElement = bikin elemen HTML baru
+    notification.className = 'notification'; // kasih nama class CSS
+    notification.textContent = message; // isi dengan pesan
     
-    // DOM Manipulation: Set notification styles
+    // atur gaya CSS notifikasi pakai JavaScript
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -146,46 +141,47 @@ function showNotification(message) {
         font-weight: 500;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-    `;
+    `; // cssText = cara set banyak CSS sekaligus
     
-    // DOM Manipulation: Add to page
-    document.body.appendChild(notification);
+    // tambahkan notifikasi ke halaman
+    document.body.appendChild(notification); // appendChild = tambahkan anak ke elemen
     
-    // DOM Manipulation: Animate in
+    // animasi masuk setelah 100ms
     setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
+        notification.style.transform = 'translateX(0)'; // geser ke posisi normal
     }, 100);
     
-    // DOM Manipulation: Remove after delay
+    // hapus notifikasi setelah 2 detik
     setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
+        notification.style.transform = 'translateX(100%)'; // geser keluar
+        setTimeout(() => { // hapus dari DOM setelah animasi selesai
+            if (notification.parentNode) { // cek apakah masih punya parent
+                document.body.removeChild(notification); // hapus dari body
             }
-        }, 300);
-    }, 2000);
+        }, 300); // tunggu animasi selesai
+    }, 2000); // tampil selama 2 detik
 }
 
-// 9. EVENT HANDLING - Input focus effects (Form submit handler dipindah ke handleAPI.js)
-const inputs = document.querySelectorAll('input[type="text"]');
+// 9. AMBIL SEMUA INPUT TEXT UNTUK KASIH EFEK FOCUS
+const inputs = document.querySelectorAll('input[type="text"]'); // querySelectorAll = cari semua elemen yang cocok
 
-// Note: Form submit handler dipindahkan ke handleAPI.js untuk integrasi database
+// catatan: form submit handler dipindahkan ke handleAPI.js untuk integrasi database
 
-// 10. EVENT HANDLING - Input focus effects
-inputs.forEach(input => {
-    input.addEventListener('focus', function() {
-        // DOM Manipulation: Add glow effect based on theme
+// 10. EVENT HANDLING - efek glow saat input difocus
+inputs.forEach(input => { // forEach = jalankan function untuk setiap elemen
+    // event saat input diklik/difocus
+    input.addEventListener('focus', function() { // focus = saat input aktif/diklik
+        // kasih efek glow sesuai tema
         if (isDarkMode) {
-            this.style.boxShadow = '0 0 10px #ffd700';
+            this.style.boxShadow = '0 0 10px #ffd700'; // bayangan kuning untuk dark mode
         } else {
-            this.style.boxShadow = '0 0 10px #4a90e2';
+            this.style.boxShadow = '0 0 10px #4a90e2'; // bayangan biru untuk light mode
         }
     });
     
-    input.addEventListener('blur', function() {
-        // DOM Manipulation: Remove glow effect
-        this.style.boxShadow = 'none';
+    // event saat input kehilangan focus
+    input.addEventListener('blur', function() { // blur = saat input tidak aktif lagi
+        this.style.boxShadow = 'none'; // hilangkan efek glow
     });
 });
 
