@@ -6,14 +6,21 @@
     
     <title>Dasbor Mahasiswa</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
 </head>
 
 <body>
 
     <header>
-        <h1> Dasbor Manajemen Mahasiswa</h1>
+        <h1 id="headerTitle"> Dasbor Manajemen Mahasiswa</h1>
+        <!-- Button Toggle Dark Mode -->
+        <button id="themeToggle" class="theme-toggle-btn">
+            <span class="theme-icon"><i class="fas fa-moon"></i></span>
+            <span class="theme-text">Dark Mode</span>
+        </button>
     </header>
 
     <main>
@@ -62,7 +69,11 @@
 
     <footer>
         <p>&copy; 2025 - Kelas Web Programming</p>
+        <p id="modeStatus">Mode Saat Ini: Light Mode</p>
     </footer>
+
+    <script src="/script/script.js"></script>
+    <script src="/script/handleAPI.js"></script>
 
 </body>
 </html>
