@@ -2,7 +2,7 @@
 // frontend dengan backend API
 
 // --- CONFIG API ---
-const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev ';
+const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev';
 const API_ENDPOINTS = {
     getAllMahasiswa: `${API_BASE_URL}/mahasiswa`,
     createMahasiswa: `${API_BASE_URL}/mahasiswa`,
@@ -61,6 +61,7 @@ async function fetchMahasiswa() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
             }
         });
 
@@ -107,6 +108,7 @@ async function createMahasiswa(mahasiswaData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
             },
             body: JSON.stringify(mahasiswaData)
         });
@@ -148,6 +150,7 @@ async function deleteMahasiswaAPI(id) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
             }
         });
 
@@ -323,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchMahasiswa();
     
     // indikator koneksi API
-    showNotification('<i class="fas fa-spinner fa-spin"></i> Menghubungkan ke database...', 'info');
+    showNotification('Menghubungkan ke database...', 'info');
 });
 
 // --- API CONNECTION TEST ---
@@ -331,7 +334,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // test koneksi API
 async function testAPIConnection() {
     try {
-        const response = await fetch(API_ENDPOINTS.getAllMahasiswa);
+        const response = await fetch(API_ENDPOINTS.getAllMahasiswa, {
+            headers: {
+                'ngrok-skip-browser-warning': 'true'
+            }
+        });
         if (response.ok) {
             showSuccess('Koneksi ke API berhasil!');
             return true;
