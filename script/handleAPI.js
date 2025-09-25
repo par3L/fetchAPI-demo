@@ -3,7 +3,7 @@
 
 // --- CONFIG API ---
 const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev'; // ini url API (alamat server backend)
-const API_KEY = 'webProgrammingAPIKEY2025'; // api key untuk akses server (sesuai dengan server backend)
+const API_KEY = ''; // api key untuk akses server (sesuai dengan server backend)
 const API_ENDPOINTS = { // kumpulan alamat endpoint untuk berbagai operasi CRUD
     getAllMahasiswa: `${API_BASE_URL}/mahasiswa`, // alamat untuk ambil semua data mahasiswa
     createMahasiswa: `${API_BASE_URL}/mahasiswa`, // alamat untuk bikin data mahasiswa baru
