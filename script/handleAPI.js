@@ -3,6 +3,7 @@
 
 // --- CONFIG API ---
 const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev'; // ini url API (alamat server backend)
+const API_KEY = 'webProgrammingAPIKEY2025'; // api key untuk akses server (sesuai dengan server backend)
 const API_ENDPOINTS = { // kumpulan alamat endpoint untuk berbagai operasi CRUD
     getAllMahasiswa: `${API_BASE_URL}/mahasiswa`, // alamat untuk ambil semua data mahasiswa
     createMahasiswa: `${API_BASE_URL}/mahasiswa`, // alamat untuk bikin data mahasiswa baru
@@ -62,7 +63,8 @@ async function fetchMahasiswa() { // async = fungsi yang bisa menunggu (asynchro
             method: 'GET', // metode HTTP untuk mengambil data
             headers: { // header untuk memberikan info tambahan ke server
                 'Content-Type': 'application/json', // kasih tau server kita kirim data JSON
-                'ngrok-skip-browser-warning': 'true' // skip peringatan ngrok
+                'ngrok-skip-browser-warning': 'true', // skip peringatan ngrok
+                'x-api-key': API_KEY // tambahkan api key untuk akses server
             }
         });
 
@@ -111,7 +113,8 @@ async function createMahasiswa(mahasiswaData) {
             method: 'POST', // metode POST untuk mengirim data baru
             headers: {
                 'Content-Type': 'application/json', // format data yang dikirim
-                'ngrok-skip-browser-warning': 'true' // skip peringatan ngrok, saia pake yang free (hobbyist)  
+                'ngrok-skip-browser-warning': 'true',
+                'x-api-key': API_KEY // skip peringatan ngrok, saia pake yang free (hobbyist)  
             },
             body: JSON.stringify(mahasiswaData) // convert data jadi string JSON untuk dikirim
         });
@@ -153,7 +156,8 @@ async function deleteMahasiswaAPI(id) {
             method: 'DELETE', // metode DELETE untuk hapus data
             headers: {
                 'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
+                'ngrok-skip-browser-warning': 'true',
+                'x-api-key': API_KEY // tambahkan api key untuk akses server
             }
         });
 
@@ -282,39 +286,6 @@ function editMahasiswa(id, nim, nama, jurusan) {
     console.log('Edit mahasiswa:', { id, nim, nama, jurusan }); // log data yang akan diedit
 }
 
-// fungsi untuk hapus mahasiswa dengan konfirmasi
-async function deleteMahasiswa(id, nama) {
-    // tampilkan dialog konfirmasi sebelum menghapus
-    const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus data mahasiswa "${nama}"?\n\nTindakan ini tidak dapat dibatalkan!`);
-    
-    if (!confirmDelete) { // jika user klik cancel
-        showWarning('Penghapusan data dibatalkan.');
-        return; // keluar dari function
-    }
-
-    try {
-        // tampilkan loading pada button delete
-        const deleteBtn = event.target.closest('.delete-btn'); // cari tombol delete yang diklik
-        const originalContent = deleteBtn.innerHTML; // simpan isi asli tombol
-        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghapus...'; // ganti jadi loading
-        deleteBtn.disabled = true; // nonaktifkan tombol
-
-        // panggil API untuk hapus data
-        await deleteMahasiswaAPI(id);
-        
-    } catch (error) {
-        // error sudah ditangani di deleteMahasiswaAPI function
-        console.log('Delete failed:', error.message);
-        
-        // kembalikan button ke keadaan semula jika error
-        const deleteBtn = document.querySelector(`[onclick*="deleteMahasiswa(${id}"]`); // cari tombol berdasarkan onclick
-        if (deleteBtn) {
-            deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Hapus'; // kembalikan teks
-            deleteBtn.disabled = false; // aktifkan kembali
-        }
-    }
-}
-
 // --- INISIASI ---
 
 // inisiasi API integration saat DOM sudah loaded (halaman sudah siap)
@@ -343,7 +314,8 @@ async function testAPIConnection() {
         // kirim permintaan sederhana ke server untuk test koneksi
         const response = await fetch(API_ENDPOINTS.getAllMahasiswa, {
             headers: {
-                'ngrok-skip-browser-warning': 'true' // skip peringatan ngrok
+                'ngrok-skip-browser-warning': 'true', // skip peringatan ngrok
+                'x-api-key': API_KEY // tambahkan api key untuk akses server
             }
         });
         if (response.ok) { // jika response berhasil (status 200-299)
