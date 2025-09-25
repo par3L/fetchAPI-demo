@@ -1,494 +1,552 @@
+/* ambil font dari google fonts untuk dipakai di website */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
 
+/* reset semua elemen html supaya gak ada margin dan padding bawaan browser */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box; /* cara menghitung ukuran elemen termasuk border dan padding */
+    margin: 0; /* hilangkan jarak luar default */
+    padding: 0; /* hilangkan jarak dalam default */
 }
 
+/* atur tampilan utama halaman web */
 body {
-    font-family: 'Poppins', sans-serif; 
-    background-color: #f7f8fc;
-    color: #333745;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Poppins', sans-serif; /* jenis huruf yang dipakai */
+    background-color: #f7f8fc; /* warna latar belakang halaman */
+    color: #333745; /* warna tulisan utama */
+    line-height: 1.6; /* jarak antar baris tulisan */
+    display: flex; /* atur layout pakai flexbox (biar elemen bisa diatur dengan mudah) */
+    flex-direction: column; /* susun elemen dari atas ke bawah */
+    min-height: 100vh; /* tinggi minimal seluruh layar (viewport height) */
+    transition: background-color 0.3s ease, color 0.3s ease; /* animasi halus saat ganti warna */
 }
 
-/* DARK THEME STYLES */
+/* gaya untuk tema gelap (dark mode) */
 body.dark-theme {
-    background-color: #1a1a2e;
-    color: #eee;
+    background-color: #1a1a2e; /* warna latar belakang gelap */
+    color: #eee; /* warna tulisan terang */
 }
 
+/* header saat mode gelap */
 body.dark-theme header {
-    background: linear-gradient(90deg, #16213e, #0f3460);
+    background: linear-gradient(90deg, #16213e, #0f3460); /* gradasi warna dari kiri ke kanan */
 }
 
+/* kotak form dan tabel saat mode gelap */
 body.dark-theme .form-container,
 body.dark-theme .table-container {
-    background-color: #16213e;
-    border-color: #0f3460;
-    color: #eee;
+    background-color: #16213e; /* latar belakang gelap */
+    border-color: #0f3460; /* warna border */
+    color: #eee; /* warna tulisan terang */
 }
 
+/* input text saat mode gelap */
 body.dark-theme input[type="text"] {
-    background-color: #0f3460;
-    color: #eee;
-    border-color: #16213e;
+    background-color: #0f3460; /* latar belakang input gelap */
+    color: #eee; /* warna tulisan terang */
+    border-color: #16213e; /* warna garis tepi */
 }
 
+/* placeholder (tulisan bantuan) di input saat mode gelap */
 body.dark-theme input[type="text"]::placeholder {
-    color: #aaa;
+    color: #aaa; /* warna abu-abu untuk teks bantuan */
 }
 
+/* tombol submit saat mode gelap */
 body.dark-theme button[type="submit"] {
-    background-color: #ffd700;
-    color: #333;
+    background-color: #ffd700; /* warna kuning emas */
+    color: #333; /* tulisan hitam */
 }
 
+/* efek hover (saat mouse di atas) tombol submit mode gelap */
 body.dark-theme button[type="submit"]:hover {
-    background-color: #ffed4e;
+    background-color: #ffed4e; /* kuning lebih terang */
 }
 
+/* header tabel (th) saat mode gelap */
 body.dark-theme th {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #eee;
+    background-color: rgba(255, 255, 255, 0.1); /* putih transparan 10% */
+    color: #eee; /* tulisan terang */
 }
 
+/* baris tabel saat mouse di atasnya (hover) mode gelap */
 body.dark-theme tbody tr:hover {
-    background-color: rgba(255, 215, 0, 0.1);
+    background-color: rgba(255, 215, 0, 0.1); /* kuning transparan 10% */
 }
 
+/* judul h2 saat mode gelap */
 body.dark-theme h2 {
-    color: #ffd700;
-    border-bottom-color: #ffd700;
+    color: #ffd700; /* warna kuning emas */
+    border-bottom-color: #ffd700; /* garis bawah kuning */
 }
 
+/* label form saat mode gelap */
 body.dark-theme label {
-    color: #ccc !important;
+    color: #ccc !important; /* abu-abu terang, !important artinya prioritas tinggi */
 }
 
+/* bagian header (kepala halaman) */
 header {
-    background: linear-gradient(90deg, #4a90e2, #5aa1e7); 
-    color: #ffffff;
-    padding: 1.5rem 0;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    position: relative;
-    transition: background 0.3s ease;
+    background: linear-gradient(90deg, #4a90e2, #5aa1e7); /* gradasi biru dari kiri ke kanan */
+    color: #ffffff; /* tulisan putih */
+    padding: 1.5rem 0; /* jarak dalam atas-bawah (rem = satuan responsif) */
+    text-align: center; /* teks di tengah */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* bayangan halus di bawah header */
+    position: relative; /* posisi relatif untuk menempatkan tombol toggle */
+    transition: background 0.3s ease; /* animasi halus saat ganti warna */
 }
 
+/* tombol untuk ganti tema (dark/light mode) */
 .theme-toggle-btn {
-    position: absolute;
-    top: 50%;
-    right: 30px;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background-color: #333745;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: absolute; /* posisi mutlak (bisa ditaruh di mana saja) */
+    top: 50%; /* 50% dari atas */
+    right: 30px; /* 30px dari kanan */
+    transform: translateY(-50%); /* geser ke atas setengah tinggi tombol biar center */
+    display: flex; /* flexbox untuk atur ikon dan teks */
+    align-items: center; /* ratakan vertikal di tengah */
+    gap: 8px; /* jarak antara ikon dan teks */
+    padding: 10px 20px; /* jarak dalam tombol */
+    background-color: #333745; /* warna latar gelap */
+    color: white; /* tulisan putih */
+    border: none; /* hilangkan border default */
+    border-radius: 25px; /* sudut membulat */
+    cursor: pointer; /* kursor jadi tangan saat hover */
+    font-size: 1rem; /* ukuran font */
+    font-weight: 500; /* ketebalan font sedang */
+    transition: all 0.3s ease; /* animasi halus untuk semua properti */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* bayangan tombol */
 }
 
+/* efek saat mouse berada di atas tombol toggle */
 .theme-toggle-btn:hover {
-    transform: translateY(-50%) scale(1.05);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transform: translateY(-50%) scale(1.05); /* geser dan perbesar sedikit */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* bayangan lebih tebal */
 }
 
+/* efek saat tombol diklik */
 .theme-toggle-btn.clicked {
-    transform: translateY(-50%) scale(0.95);
-    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    transform: translateY(-50%) scale(0.95); /* geser dan kecilkan sedikit */
+    box-shadow: 0 1px 5px rgba(0,0,0,0.3); /* bayangan lebih tipis */
 }
 
+/* ikon di dalam tombol toggle */
 .theme-icon {
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
+    font-size: 1.2rem; /* ukuran ikon */
+    transition: transform 0.3s ease; /* animasi rotasi */
 }
 
+/* efek rotasi ikon saat hover */
 .theme-toggle-btn:hover .theme-icon {
-    transform: rotate(20deg);
+    transform: rotate(20deg); /* putar 20 derajat */
 }
 
+/* teks di dalam tombol toggle */
 .theme-text {
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-weight: 600; /* teks tebal */
+    letter-spacing: 0.5px; /* jarak antar huruf */
 }
 
+/* judul utama di header */
 header h1 {
-    font-weight: 600;
+    font-weight: 600; /* ketebalan font */
 }
 
+/* bagian utama halaman (isi konten) */
 main {
-    flex-grow: 1;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 40px; 
-    gap: 30px; 
+    flex-grow: 1; /* ambil sisa ruang yang ada */
+    display: flex; /* gunakan flexbox */
+    flex-wrap: wrap; /* boleh pindah baris kalau kepenuhan */
+    padding: 40px; /* jarak dalam dari semua sisi */
+    gap: 30px; /* jarak antara elemen anak */
 }
 
+/* bagian footer (kaki halaman) */
 footer {
-    text-align: center;
-    padding: 1rem 0;
-    background-color: #333745;
-    color: #f7f8fc;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    transition: background-color 0.3s ease;
+    text-align: center; /* teks di tengah */
+    padding: 1rem 0; /* jarak dalam atas-bawah */
+    background-color: #333745; /* warna latar gelap */
+    color: #f7f8fc; /* warna tulisan terang */
+    display: flex; /* flexbox */
+    flex-direction: column; /* susun dari atas ke bawah */
+    gap: 5px; /* jarak antar elemen */
+    transition: background-color 0.3s ease; /* animasi ganti warna */
 }
 
+/* footer saat mode gelap */
 body.dark-theme footer {
-    background-color: #0f0f23;
+    background-color: #0f0f23; /* warna lebih gelap */
 }
 
+/* status mode saat ini (dark/light) */
 #modeStatus {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #4a90e2;
-    transition: color 0.3s ease;
+    font-size: 0.9rem; /* ukuran font lebih kecil */
+    font-weight: 500; /* ketebalan sedang */
+    color: #4a90e2; /* warna biru */
+    transition: color 0.3s ease; /* animasi ganti warna */
 }
 
-/* NOTIFICATION STYLES */
+/* gaya untuk notifikasi pop-up */
 .notification {
-    animation: slideInFromRight 0.3s ease;
+    animation: slideInFromRight 0.3s ease; /* animasi masuk dari kanan */
 }
 
+/* animasi slide dari kanan */
 @keyframes slideInFromRight {
     from {
-        transform: translateX(100%);
-        opacity: 0;
+        transform: translateX(100%); /* mulai dari luar layar kanan */
+        opacity: 0; /* transparan */
     }
     to {
-        transform: translateX(0);
-        opacity: 1;
+        transform: translateX(0); /* berakhir di posisi normal */
+        opacity: 1; /* terlihat penuh */
     }
 }
 
-/* ENHANCED TRANSITIONS */
+/* animasi transisi halus untuk kotak form dan tabel */
 .form-container, .table-container {
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    /* transform = perubahan bentuk, box-shadow = bayangan, background-color = warna latar, border-color = warna border */
 }
 
+/* animasi untuk input dan tombol submit */
 input[type="text"], button[type="submit"] {
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* animasi halus untuk semua properti */
 }
 
-/* RESPONSIVE DESIGN FOR TOGGLE BUTTON */
-@media (max-width: 768px) {
+/* responsive design untuk tombol toggle di layar kecil (tablet/hp) */
+@media (max-width: 768px) { /* jika lebar layar maksimal 768px */
     .theme-toggle-btn {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        margin: 10px auto 0;
-        display: flex;
+        position: relative; /* posisi relatif (bukan absolute lagi) */
+        right: auto; /* reset posisi kanan */
+        top: auto; /* reset posisi atas */
+        transform: none; /* hilangkan transform */
+        margin: 10px auto 0; /* margin atas 10px, kiri-kanan auto (tengah), bawah 0 */
+        display: flex; /* tetap flexbox */
     }
     
     header {
-        padding: 1.5rem 20px;
+        padding: 1.5rem 20px; /* tambah padding kiri-kanan */
     }
     
     header h1 {
-        margin-bottom: 15px;
+        margin-bottom: 15px; /* jarak bawah untuk judul */
     }
 }
 
 /* API INTEGRATION STYLES */
 
-/* Loading Animation */
+/* animasi loading (berkedip-kedip) */
 .loading {
-    color: #4a90e2;
-    font-weight: 500;
-    animation: pulse 1.5s infinite;
+    color: #4a90e2; /* warna biru */
+    font-weight: 500; /* ketebalan sedang */
+    animation: pulse 1.5s infinite; /* animasi pulse selama 1.5 detik terus berulang */
 }
 
+/* loading saat mode gelap */
 body.dark-theme .loading {
-    color: #ffd700;
+    color: #ffd700; /* warna kuning */
 }
 
+/* definisi animasi pulse (berkedip) */
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%, 100% { opacity: 1; } /* di awal dan akhir, terlihat penuh */
+    50% { opacity: 0.5; } /* di tengah, agak transparan */
 }
 
-/* Error State Styling */
+/* pesan error (kesalahan) */
 .error-message {
-    color: #dc3545;
-    font-style: italic;
+    color: #dc3545; /* warna merah */
+    font-style: italic; /* tulisan miring */
 }
 
+/* pesan error saat mode gelap */
 body.dark-theme .error-message {
-    color: #ff6b6b;
+    color: #ff6b6b; /* merah lebih terang */
 }
 
-/* Empty State Styling */
+/* pesan saat tidak ada data (kosong) */
 .empty-state {
-    color: #666;
-    font-style: italic;
+    color: #666; /* abu-abu */
+    font-style: italic; /* tulisan miring */
 }
 
+/* pesan kosong saat mode gelap */
 body.dark-theme .empty-state {
-    color: #ccc;
+    color: #ccc; /* abu-abu terang */
 }
 
-/* Enhanced Action Buttons */
+/* tombol aksi (edit, hapus, dll) */
 .action-btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+    padding: 8px 12px; /* jarak dalam tombol */
+    border: none; /* hilangkan border */
+    border-radius: 6px; /* sudut membulat */
+    color: white; /* tulisan putih */
+    cursor: pointer; /* kursor jadi tangan */
+    font-size: 0.85rem; /* ukuran font kecil */
+    font-weight: 500; /* ketebalan sedang */
+    margin-right: 5px; /* jarak kanan */
+    margin-bottom: 5px; /* jarak bawah */
+    transition: all 0.3s ease; /* animasi halus */
+    display: inline-flex; /* flex tapi tetap inline */
+    align-items: center; /* ratakan vertikal */
+    gap: 4px; /* jarak antara ikon dan teks */
 }
 
+/* efek saat hover tombol aksi */
 .action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px); /* naik sedikit */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* kasih bayangan */
 }
 
+/* efek saat tombol ditekan */
 .action-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(0); /* kembali ke posisi normal */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* bayangan lebih tipis */
 }
 
-/* Loading State for Submit Button */
+/* tombol submit saat disabled (tidak bisa diklik) */
 button[type="submit"]:disabled {
-    background-color: #ccc !important;
-    cursor: not-allowed;
-    transform: none !important;
+    background-color: #ccc !important; /* warna abu-abu, !important = prioritas tinggi */
+    cursor: not-allowed; /* kursor tanda dilarang */
+    transform: none !important; /* hilangkan efek transform */
 }
 
+/* tombol submit disabled saat mode gelap */
 body.dark-theme button[type="submit"]:disabled {
-    background-color: #555 !important;
-    color: #999 !important;
+    background-color: #555 !important; /* abu gelap */
+    color: #999 !important; /* tulisan abu-abu */
 }
 
-/* Table Row Animation */
+/* baris tabel dengan animasi */
 .table-row {
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* animasi halus untuk semua efek */
 }
 
+/* efek hover baris tabel */
 .table-row:hover {
-    background-color: #eef5ff !important;
-    transform: scale(1.02) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #eef5ff !important; /* warna biru muda */
+    transform: scale(1.02) !important; /* perbesar sedikit (2%) */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* kasih bayangan */
 }
 
+/* hover baris tabel saat mode gelap */
 body.dark-theme .table-row:hover {
-    background-color: rgba(255, 215, 0, 0.1) !important;
+    background-color: rgba(255, 215, 0, 0.1) !important; /* kuning transparan */
 }
 
-/* API Status Indicator */
+/* indikator status koneksi api (pojok kiri bawah) */
 .api-status {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    z-index: 1000;
-    transition: all 0.3s ease;
+    position: fixed; /* posisi tetap di layar */
+    bottom: 20px; /* 20px dari bawah */
+    left: 20px; /* 20px dari kiri */
+    padding: 8px 12px; /* jarak dalam */
+    border-radius: 20px; /* sudut bulat */
+    font-size: 0.8rem; /* font kecil */
+    font-weight: 500; /* ketebalan sedang */
+    z-index: 1000; /* lapisan paling atas */
+    transition: all 0.3s ease; /* animasi halus */
 }
 
+/* status terhubung (warna hijau) */
 .api-status.connected {
-    background-color: #28a745;
-    color: white;
+    background-color: #28a745; /* hijau */
+    color: white; /* tulisan putih */
 }
 
+/* status terputus (warna merah) */
 .api-status.disconnected {
-    background-color: #dc3545;
-    color: white;
+    background-color: #dc3545; /* merah */
+    color: white; /* tulisan putih */
 }
 
+/* status sedang menghubungkan (warna kuning) */
 .api-status.connecting {
-    background-color: #ffc107;
-    color: #333;
+    background-color: #ffc107; /* kuning */
+    color: #333; /* tulisan hitam */
 }
 
-/* Enhanced Notification Styles */
+/* notifikasi dengan efek tambahan */
 .notification {
-    min-width: 250px;
-    max-width: 400px;
-    word-wrap: break-word;
-    backdrop-filter: blur(10px);
-    border-left: 4px solid transparent;
+    min-width: 250px; /* lebar minimal */
+    max-width: 400px; /* lebar maksimal */
+    word-wrap: break-word; /* potong kata panjang */
+    backdrop-filter: blur(10px); /* efek blur di belakang */
+    border-left: 4px solid transparent; /* border kiri transparan default */
 }
 
+/* notifikasi sukses (hijau) */
 .notification.success {
-    border-left-color: #28a745;
+    border-left-color: #28a745; /* border kiri hijau */
 }
 
+/* notifikasi error (merah) */
 .notification.error {
-    border-left-color: #dc3545;
+    border-left-color: #dc3545; /* border kiri merah */
 }
 
+/* notifikasi info (biru) */
 .notification.info {
-    border-left-color: #17a2b8;
+    border-left-color: #17a2b8; /* border kiri biru */
 }
 
-/* Mobile Responsive for API Elements */
-@media (max-width: 768px) {
+/* responsive design untuk hp dan tablet */
+@media (max-width: 768px) { /* jika lebar layar maksimal 768px */
     .action-btn {
-        padding: 6px 8px;
-        font-size: 0.8rem;
+        padding: 6px 8px; /* padding lebih kecil */
+        font-size: 0.8rem; /* font lebih kecil */
     }
     
     .api-status {
-        bottom: 10px;
-        left: 10px;
-        font-size: 0.7rem;
+        bottom: 10px; /* lebih dekat ke bawah */
+        left: 10px; /* lebih dekat ke kiri */
+        font-size: 0.7rem; /* font lebih kecil lagi */
     }
     
     .notification {
-        right: 10px;
-        left: 10px;
-        max-width: none;
+        right: 10px; /* jarak dari kanan */
+        left: 10px; /* jarak dari kiri */
+        max-width: none; /* hilangkan batas lebar maksimal */
     }
 }
 
+/* kotak form dan tabel utama */
 .form-container, .table-container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px; 
-    border: 1px solid #e1e4e8;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    background-color: #ffffff; /* latar putih */
+    padding: 30px; /* jarak dalam 30px */
+    border-radius: 12px; /* sudut membulat */
+    border: 1px solid #e1e4e8; /* garis tepi abu-abu tipis */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* bayangan halus */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* animasi gerak dan bayangan */
 }
 
-
+/* efek hover kotak form dan tabel */
 .form-container:hover, .table-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px); /* naik 5px */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* bayangan lebih tebal */
 }
 
+/* pengaturan ukuran kotak form */
 .form-container {
-    flex: 1;
-    min-width: 350px;
+    flex: 1; /* ambil 1 bagian ruang */
+    min-width: 350px; /* lebar minimal 350px */
 }
 
+/* pengaturan ukuran kotak tabel */
 .table-container {
-    flex: 2;
-    min-width: 400px;
-    overflow-x: auto;
+    flex: 2; /* ambil 2 bagian ruang (lebih lebar) */
+    min-width: 400px; /* lebar minimal 400px */
+    overflow-x: auto; /* scroll horizontal kalau kepanjangan */
 }
 
+/* judul h2 (heading 2) */
 h2 {
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #4a90e2;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #333745;
+    font-weight: 600; /* ketebalan font */
+    margin-bottom: 20px; /* jarak bawah 20px */
+    color: #4a90e2; /* warna biru */
+    padding-bottom: 10px; /* jarak dalam bawah */
+    border-bottom: 2px solid #333745; /* garis bawah tebal */
 }
 
-
+/* grup form (label + input) */
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #555;
+    display: block; /* tampil sebagai blok (pindah baris) */
+    margin-bottom: 8px; /* jarak bawah 8px */
+    font-weight: 500; /* ketebalan sedang */
+    color: #555; /* warna abu gelap */
 }
 
+/* input teks dalam form */
 .form-group input[type="text"] {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #e1e4e8;
-    background-color: #fdfdfd;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: 'Poppins', sans-serif;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%; /* lebar penuh */
+    padding: 12px 15px; /* jarak dalam: 12px atas-bawah, 15px kiri-kanan */
+    border: 1px solid #e1e4e8; /* border abu-abu */
+    background-color: #fdfdfd; /* latar hampir putih */
+    border-radius: 8px; /* sudut membulat */
+    font-size: 1rem; /* ukuran font normal */
+    font-family: 'Poppins', sans-serif; /* jenis font sama dengan body */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* animasi border dan bayangan */
 }
 
+/* input saat difokus (diklik/dipilih) */
 .form-group input[type="text"]:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    outline: none; /* hilangkan outline default browser */
+    border-color: #4a90e2; /* border jadi biru */
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); /* bayangan biru transparan */
 }
 
+/* tombol submit */
 button[type="submit"] {
-    width: 100%;
-    padding: 14px;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%; /* lebar penuh */
+    padding: 14px; /* jarak dalam 14px */
+    background-color: #4a90e2; /* latar biru */
+    color: white; /* tulisan putih */
+    border: none; /* hilangkan border */
+    border-radius: 8px; /* sudut membulat */
+    font-size: 1.1rem; /* font sedikit lebih besar */
+    font-weight: 600; /* font tebal */
+    cursor: pointer; /* kursor jadi tangan */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* animasi warna dan gerak */
 }
 
+/* efek hover tombol submit */
 button[type="submit"]:hover {
-    background-color: #357abd;
-    transform: translateY(-2px);
+    background-color: #357abd; /* biru lebih gelap */
+    transform: translateY(-2px); /* naik 2px */
 }
 
 
+/* tabel */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+    width: 100%; /* lebar penuh */
+    border-collapse: collapse; /* gabungkan border antar sel */
+    margin-top: 10px; /* jarak atas 10px */
 }
 
+/* sel tabel (th = header, td = data) */
 th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #e1e4e8;
+    padding: 15px; /* jarak dalam 15px */
+    text-align: left; /* rata kiri */
+    border-bottom: 1px solid #e1e4e8; /* garis bawah tipis */
 }
 
+/* header tabel */
 thead th {
-    background-color: rgba(0, 0, 0, 0.08);
-    font-weight: 600;
-    color: #555;
+    background-color: rgba(0, 0, 0, 0.08); /* hitam transparan 8% */
+    font-weight: 600; /* font tebal */
+    color: #555; /* warna abu gelap */
 }
 
+/* baris data tabel */
 tbody tr {
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; /* animasi ganti warna */
 }
 
+/* baris terakhir tidak ada garis bawah */
 tbody tr:last-child td {
-    border-bottom: none;
+    border-bottom: none; /* hilangkan border bawah */
 }
 
+/* efek hover baris tabel */
 tbody tr:hover {
-    background-color: #eef5ff; 
+    background-color: #eef5ff; /* biru muda saat hover */
 }
 
+/* tombol aksi dalam tabel */
 .action-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-right: 5px;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    padding: 6px 12px; /* jarak dalam kecil */
+    border: none; /* hilangkan border */
+    border-radius: 6px; /* sudut membulat */
+    color: white; /* tulisan putih */
+    cursor: pointer; /* kursor tangan */
+    font-size: 0.9rem; /* font agak kecil */
+    font-weight: 500; /* ketebalan sedang */
+    margin-right: 5px; /* jarak kanan 5px */
+    transition: background-color 0.2s ease, transform 0.2s ease; /* animasi warna dan gerak */
 }
 
-
-@media (max-width: 992px) {
+/* responsive design untuk layar sedang (tablet) */
+@media (max-width: 992px) { /* jika lebar layar maksimal 992px */
     main {
-        flex-direction: column;
-        padding: 20px;
+        flex-direction: column; /* susun elemen dari atas ke bawah */
+        padding: 20px; /* padding lebih kecil */
     }
 }

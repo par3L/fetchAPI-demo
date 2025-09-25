@@ -2,23 +2,23 @@
 // frontend dengan backend API
 
 // --- CONFIG API ---
-const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev'; // ini url API
-const API_ENDPOINTS = { // endpointnya
-    getAllMahasiswa: `${API_BASE_URL}/mahasiswa`,
-    createMahasiswa: `${API_BASE_URL}/mahasiswa`,
-    deleteMahasiswa: (id) => `${API_BASE_URL}/mahasiswa/${id}`
+const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev'; // ini url API (alamat server backend)
+const API_ENDPOINTS = { // kumpulan alamat endpoint untuk berbagai operasi CRUD
+    getAllMahasiswa: `${API_BASE_URL}/mahasiswa`, // alamat untuk ambil semua data mahasiswa
+    createMahasiswa: `${API_BASE_URL}/mahasiswa`, // alamat untuk bikin data mahasiswa baru
+    deleteMahasiswa: (id) => `${API_BASE_URL}/mahasiswa/${id}` // alamat untuk hapus mahasiswa berdasarkan id
 };
 
 // --- FUNCTIONS ---
 
-// menampilkan loading state
+// fungsi untuk menampilkan loading state (sedang memuat)
 function showLoading(show = true) {
-    const submitBtn = document.querySelector('button[type="submit"]');
-    const tableBody = document.getElementById('mahasiswaTableBody');
+    const submitBtn = document.querySelector('button[type="submit"]'); // cari tombol submit
+    const tableBody = document.getElementById('mahasiswaTableBody'); // cari body tabel
     
-    if (show) {
-        submitBtn.textContent = 'Menyimpan...';
-        submitBtn.disabled = true;
+    if (show) { // kalau mau tampilkan loading
+        submitBtn.textContent = 'Menyimpan...'; // ganti teks tombol
+        submitBtn.disabled = true; // nonaktifkan tombol biar ga bisa diklik
         
         // tampilkan loading di tabel
         tableBody.innerHTML = `
@@ -28,58 +28,60 @@ function showLoading(show = true) {
                 </td>
             </tr>
         `;
-    } else {
-        submitBtn.textContent = 'Simpan Data';
-        submitBtn.disabled = false;
+    } else { // kalau mau sembunyikan loading
+        submitBtn.textContent = 'Simpan Data'; // kembalikan teks tombol normal
+        submitBtn.disabled = false; // aktifkan kembali tombol
     }
 }
 
-// menampilkan error message
+// fungsi untuk menampilkan pesan error (kesalahan)
 function showError(message) {
-    showNotification(`${message}`, 'error');
-    console.error('API Error:', message);
+    showNotification(`${message}`, 'error'); // tampilkan notifikasi error merah
+    console.error('API Error:', message); // catat error di console browser
 }
 
-// menampilkan success message
+// fungsi untuk menampilkan pesan sukses (berhasil)
 function showSuccess(message) {
-    showNotification(`${message}`, 'success');
+    showNotification(`${message}`, 'success'); // tampilkan notifikasi sukses hijau
 }
 
-// menampilkan warning message
+// fungsi untuk menampilkan pesan peringatan
 function showWarning(message) {
-    showNotification(`${message}`, 'warning');
+    showNotification(`${message}`, 'warning'); // tampilkan notifikasi peringatan kuning
 }
 
 // --- API FUNCTIONS ---
 
-// GET - mengambil semua data mahasiswa dari database
-async function fetchMahasiswa() {
-    try {
-        showLoading(true);
+// GET - fungsi untuk mengambil semua data mahasiswa dari database
+async function fetchMahasiswa() { // async = fungsi yang bisa menunggu (asynchronous)
+    try { // coba jalankan kode di dalam try
+        showLoading(true); // tampilkan loading
         
-        const response = await fetch(API_ENDPOINTS.getAllMahasiswa, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
+        // kirim permintaan GET ke server
+        const response = await fetch(API_ENDPOINTS.getAllMahasiswa, { // await = tunggu sampai selesai
+            method: 'GET', // metode HTTP untuk mengambil data
+            headers: { // header untuk memberikan info tambahan ke server
+                'Content-Type': 'application/json', // kasih tau server kita kirim data JSON
+                'ngrok-skip-browser-warning': 'true' // skip peringatan ngrok
             }
         });
 
+        // cek apakah response berhasil (status code 200-299)
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`); // lempar error jika gagal
         }
 
-        const mahasiswaData = await response.json();
-        console.log('Data mahasiswa berhasil diambil:', mahasiswaData);
+        const mahasiswaData = await response.json(); // convert response jadi JSON
+        console.log('Data mahasiswa berhasil diambil:', mahasiswaData); // log ke console
         
-        // put data ke tabel
+        // masukkan data ke tabel HTML
         renderMahasiswaTable(mahasiswaData);
         
-        return mahasiswaData;
+        return mahasiswaData; // kembalikan data
         
-    } catch (error) {
-        console.error('Error fetching mahasiswa:', error);
-        showError('Gagal mengambil data dari server. Pastikan server API berjalan!');
+    } catch (error) { // kalau ada error, jalankan kode ini
+        console.error('Error fetching mahasiswa:', error); // log error
+        showError('Gagal mengambil data dari server. Pastikan server API berjalan!'); // tampilkan pesan error
         
         // tampilkan pesan error di tabel
         const tableBody = document.getElementById('mahasiswaTableBody');
@@ -94,60 +96,61 @@ async function fetchMahasiswa() {
                 </td>
             </tr>
         `;
-    } finally {
-        showLoading(false);
+    } finally { // kode ini selalu dijalankan, error atau tidak
+        showLoading(false); // sembunyikan loading
     }
 }
 
-// POST - menambahkan data mahasiswa baru ke database
+// POST - fungsi untuk menambahkan data mahasiswa baru ke database
 async function createMahasiswa(mahasiswaData) {
     try {
         
-        showLoading(true);
+        showLoading(true); // tampilkan loading
+        // kirim permintaan POST ke server dengan data mahasiswa
         const response = await fetch(API_ENDPOINTS.createMahasiswa, {
-            method: 'POST',
+            method: 'POST', // metode POST untuk mengirim data baru
             headers: {
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
+                'Content-Type': 'application/json', // format data yang dikirim
+                'ngrok-skip-browser-warning': 'true' // skip peringatan ngrok, saia pake yang free (hobbyist)  
             },
-            body: JSON.stringify(mahasiswaData)
+            body: JSON.stringify(mahasiswaData) // convert data jadi string JSON untuk dikirim
         });
 
-        const result = await response.json();
+        const result = await response.json(); // convert response jadi JSON
 
+        // cek berbagai kemungkinan error dari server
         if (!response.ok) {
             // handle error cases
-            if (response.status === 409) {
+            if (response.status === 409) { // status 409 = conflict (data sudah ada)
                 throw new Error('NIM sudah terdaftar! Gunakan NIM yang berbeda.');
-            } else if (response.status === 400) {
+            } else if (response.status === 400) { // status 400 = bad request (data tidak valid)
                 throw new Error('Data tidak lengkap! Semua field harus diisi.');
             } else {
-                throw new Error(result.message || 'Gagal menyimpan data');
+                throw new Error(result.message || 'Gagal menyimpan data'); // error lainnya
             }
         }
 
-        console.log('Data mahasiswa berhasil dibuat:', result);
-        showSuccess(`Data mahasiswa berhasil ditambahkan! ID: ${result.id}`);
+        console.log('Data mahasiswa berhasil dibuat:', result); // log sukses
+        showSuccess(`Data mahasiswa berhasil ditambahkan! ID: ${result.id}`); // tampilkan pesan sukses
         
         // refresh data tabel setelah berhasil menambah
-        await fetchMahasiswa();
+        await fetchMahasiswa(); // ambil ulang data terbaru dari server
         
-        return result;
+        return result; // kembalikan hasil
         
-    } catch (error) {
+    } catch (error) { // tangani error
         console.error('Error creating mahasiswa:', error);
-        showError(error.message);
-        throw error; // re-throw untuk handling di form
+        showError(error.message); // tampilkan pesan error
+        throw error; // re-throw untuk handling di form (lempar error lagi ke pemanggil)
     } finally {
-        showLoading(false);
+        showLoading(false); // sembunyikan loading
     }
-}
-
-// DELETE - menghapus data mahasiswa dari database
+}// DELETE - fungsi untuk menghapus data mahasiswa dari database
 async function deleteMahasiswaAPI(id) {
     try {
-        const response = await fetch(API_ENDPOINTS.deleteMahasiswa(id), {
-            method: 'DELETE',
+        // kirim permintaan DELETE ke server
+        const response = await fetch(API_ENDPOINTS.deleteMahasiswa(id), { // panggil function dengan parameter id
+            method: 'DELETE', // metode DELETE untuk hapus data
             headers: {
                 'Content-Type': 'application/json',
                 'ngrok-skip-browser-warning': 'true'
@@ -156,11 +159,12 @@ async function deleteMahasiswaAPI(id) {
 
         const result = await response.json();
 
+        // cek berbagai kemungkinan error
         if (!response.ok) {
             // handle error cases
-            if (response.status === 404) {
+            if (response.status === 404) { // status 404 = not found (data tidak ditemukan)
                 throw new Error('Data mahasiswa tidak ditemukan.');
-            } else if (response.status === 400) {
+            } else if (response.status === 400) { // status 400 = bad request (id tidak valid)
                 throw new Error('ID tidak valid.');
             } else {
                 throw new Error(result.message || 'Gagal menghapus data');
@@ -171,24 +175,24 @@ async function deleteMahasiswaAPI(id) {
         showSuccess(`Data mahasiswa berhasil dihapus!`);
         
         // refresh data tabel setelah berhasil menghapus
-        await fetchMahasiswa();
+        await fetchMahasiswa(); // ambil ulang data terbaru
         
         return result;
         
     } catch (error) {
         console.error('Error deleting mahasiswa:', error);
         showError(error.message);
-        throw error;
+        throw error; // lempar error ke pemanggil
     }
 }
 
 // --- DOM MANIPULATION ---
 
-// render data mahasiswa ke dalam tabel
+// fungsi untuk menampilkan data mahasiswa ke dalam tabel HTML
 function renderMahasiswaTable(mahasiswaData) {
-    const tableBody = document.getElementById('mahasiswaTableBody');
+    const tableBody = document.getElementById('mahasiswaTableBody'); // cari elemen tbody
     
-    // jika tidak ada data
+    // cek jika tidak ada data atau array kosong
     if (!mahasiswaData || mahasiswaData.length === 0) {
         tableBody.innerHTML = `
             <tr>
@@ -201,10 +205,10 @@ function renderMahasiswaTable(mahasiswaData) {
                 </td>
             </tr>
         `;
-        return;
+        return; // keluar dari function
     }
 
-    // render setiap data mahasiswa
+    // buat HTML untuk setiap data mahasiswa menggunakan map
     tableBody.innerHTML = mahasiswaData.map(mahasiswa => `
         <tr data-id="${mahasiswa.id}" class="table-row">
             <td>${mahasiswa.nim}</td>
@@ -221,139 +225,142 @@ function renderMahasiswaTable(mahasiswaData) {
                 </button>
             </td>
         </tr>
-    `).join('');
+    `).join(''); // join('') untuk gabungkan array jadi string
 
-    // hover effects
-    const rows = document.querySelectorAll('.table-row');
-    rows.forEach(row => {
+    // tambahkan efek hover ke setiap baris tabel
+    const rows = document.querySelectorAll('.table-row'); // cari semua baris
+    rows.forEach(row => { // untuk setiap baris
+        // event saat mouse masuk ke baris
         row.addEventListener('mouseenter', function() {
-            this.style.backgroundColor = isDarkMode ? 'rgba(255, 215, 0, 0.1)' : '#eef5ff';
-            this.style.transform = 'scale(1.02)';
+            this.style.backgroundColor = isDarkMode ? 'rgba(255, 215, 0, 0.1)' : '#eef5ff'; // ganti warna sesuai tema
+            this.style.transform = 'scale(1.02)'; // perbesar sedikit
         });
         
+        // event saat mouse keluar dari baris
         row.addEventListener('mouseleave', function() {
-            this.style.backgroundColor = '';
-            this.style.transform = 'scale(1)';
+            this.style.backgroundColor = ''; // kembalikan warna asli
+            this.style.transform = 'scale(1)'; // kembalikan ukuran normal
         });
     });
 }
 
 // --- EVENT HANDLERS ---
 
-// handle form submission
+// fungsi untuk menangani submit form (saat tombol simpan diklik)
 async function handleFormSubmit(event) {
-    event.preventDefault();
+    event.preventDefault(); // mencegah form reload halaman (behavior default)
     
-    // ambil data dari form
+    // ambil data dari form input
     const formData = {
-        nim: document.getElementById('nim').value.trim(),
+        nim: document.getElementById('nim').value.trim(), // trim() = hapus spasi di awal/akhir
         nama: document.getElementById('nama').value.trim(),
         jurusan: document.getElementById('jurusan').value.trim()
     };
 
-    // validasi client-side
+    // validasi client-side (cek di frontend sebelum kirim ke server)
     if (!formData.nim || !formData.nama || !formData.jurusan) {
         showError('Semua field harus diisi!');
-        return;
+        return; // keluar dari function jika ada field kosong
     }
 
     try {
-        // kirim ke API
+        // kirim data ke API
         await createMahasiswa(formData);
         
-        // reset form jika berhasil
+        // reset form jika berhasil (kosongkan semua input)
         document.getElementById('mahasiswaForm').reset();
         
     } catch (error) {
-        // error ditangani di createMahasiswa function
+        // error sudah ditangani di createMahasiswa function
         console.log('Form submission failed:', error.message);
     }
 }
 
-// placeholder untuk edit (ditambahkan nanti)
+// placeholder untuk fitur edit (belum diimplementasi)
 function editMahasiswa(id, nim, nama, jurusan) {
-    showNotification('Fitur edit sedang dalam pengembangan!', 'info');
-    console.log('Edit mahasiswa:', { id, nim, nama, jurusan });
+    showNotification('Fitur edit sedang dalam pengembangan!', 'info'); // tampilkan pesan info
+    console.log('Edit mahasiswa:', { id, nim, nama, jurusan }); // log data yang akan diedit
 }
 
-// delete mahasiswa dengan konfirmasi
+// fungsi untuk hapus mahasiswa dengan konfirmasi
 async function deleteMahasiswa(id, nama) {
-    // konfirmasi sebelum menghapus
+    // tampilkan dialog konfirmasi sebelum menghapus
     const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus data mahasiswa "${nama}"?\n\nTindakan ini tidak dapat dibatalkan!`);
     
-    if (!confirmDelete) {
+    if (!confirmDelete) { // jika user klik cancel
         showWarning('Penghapusan data dibatalkan.');
-        return;
+        return; // keluar dari function
     }
 
     try {
         // tampilkan loading pada button delete
-        const deleteBtn = event.target.closest('.delete-btn');
-        const originalContent = deleteBtn.innerHTML;
-        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghapus...';
-        deleteBtn.disabled = true;
+        const deleteBtn = event.target.closest('.delete-btn'); // cari tombol delete yang diklik
+        const originalContent = deleteBtn.innerHTML; // simpan isi asli tombol
+        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghapus...'; // ganti jadi loading
+        deleteBtn.disabled = true; // nonaktifkan tombol
 
-        // panggil route delete
+        // panggil API untuk hapus data
         await deleteMahasiswaAPI(id);
         
     } catch (error) {
-        // error ditangani di deleteMahasiswaAPI function
+        // error sudah ditangani di deleteMahasiswaAPI function
         console.log('Delete failed:', error.message);
         
-        // restore button state
-        const deleteBtn = document.querySelector(`[onclick*="deleteMahasiswa(${id}"]`);
+        // kembalikan button ke keadaan semula jika error
+        const deleteBtn = document.querySelector(`[onclick*="deleteMahasiswa(${id}"]`); // cari tombol berdasarkan onclick
         if (deleteBtn) {
-            deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Hapus';
-            deleteBtn.disabled = false;
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i> Hapus'; // kembalikan teks
+            deleteBtn.disabled = false; // aktifkan kembali
         }
     }
 }
 
 // --- INISIASI ---
 
-// inisiasi API integration saat DOM loaded
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('API Handler loaded - connecting to:', API_BASE_URL);
+// inisiasi API integration saat DOM sudah loaded (halaman sudah siap)
+document.addEventListener('DOMContentLoaded', function() { // DOMContentLoaded = event saat HTML sudah dimuat
+    console.log('API Handler loaded - connecting to:', API_BASE_URL); // log info koneksi
     
-    // bind form ke submit event
-    const form = document.getElementById('mahasiswaForm');
-    if (form) {
-        form.removeEventListener('submit', handleFormSubmit);
-        form.addEventListener('submit', handleFormSubmit);
+    // bind form ke submit event (hubungkan form dengan function handleFormSubmit)
+    const form = document.getElementById('mahasiswaForm'); // cari form
+    if (form) { // jika form ditemukan
+        form.removeEventListener('submit', handleFormSubmit); // hapus event listener lama (jika ada)
+        form.addEventListener('submit', handleFormSubmit); // tambah event listener baru
     }
     
-    // fetch data
+    // ambil data mahasiswa saat pertama kali load
     fetchMahasiswa();
     
-    // indikator koneksi API
+    // tampilkan indikator bahwa sedang mencoba koneksi
     showNotification('Menghubungkan ke database...', 'info');
 });
 
 // --- API CONNECTION TEST ---
 
-// test koneksi API
+// fungsi untuk test koneksi ke API server
 async function testAPIConnection() {
     try {
+        // kirim permintaan sederhana ke server untuk test koneksi
         const response = await fetch(API_ENDPOINTS.getAllMahasiswa, {
             headers: {
-                'ngrok-skip-browser-warning': 'true'
+                'ngrok-skip-browser-warning': 'true' // skip peringatan ngrok
             }
         });
-        if (response.ok) {
+        if (response.ok) { // jika response berhasil (status 200-299)
             showSuccess('Koneksi ke API berhasil!');
-            return true;
+            return true; // kembalikan true jika berhasil
         } else {
             throw new Error('API tidak merespons dengan benar');
         }
     } catch (error) {
         showError('Tidak dapat terhubung ke API. Pastikan server berjalan di localhost:3000');
-        return false;
+        return false; // kembalikan false jika gagal
     }
 }
 
-// export functions untuk testing (opsional)
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
+// export functions untuk testing (opsional, untuk environment Node.js)
+if (typeof module !== 'undefined' && module.exports) { // cek jika sedang di environment Node.js
+    module.exports = { // export function supaya bisa diimport di file lain
         fetchMahasiswa,
         createMahasiswa,
         deleteMahasiswaAPI,
@@ -361,4 +368,4 @@ if (typeof module !== 'undefined' && module.exports) {
     };
 }
 
-console.log('<i class="fas fa-check-circle"></i> API Handler berhasil dimuat!');
+console.log('API Handler berhasil dimuat!'); // log bahwa file sudah loaded
