@@ -2,8 +2,8 @@
 // frontend dengan backend API
 
 // --- CONFIG API ---
-const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev';
-const API_ENDPOINTS = {
+const API_BASE_URL = 'https://aeromarine-miki-nonsynonymously.ngrok-free.dev'; // ini url API
+const API_ENDPOINTS = { // endpointnya
     getAllMahasiswa: `${API_BASE_URL}/mahasiswa`,
     createMahasiswa: `${API_BASE_URL}/mahasiswa`,
     deleteMahasiswa: (id) => `${API_BASE_URL}/mahasiswa/${id}`
@@ -102,8 +102,8 @@ async function fetchMahasiswa() {
 // POST - menambahkan data mahasiswa baru ke database
 async function createMahasiswa(mahasiswaData) {
     try {
-        showLoading(true);
         
+        showLoading(true);
         const response = await fetch(API_ENDPOINTS.createMahasiswa, {
             method: 'POST',
             headers: {
